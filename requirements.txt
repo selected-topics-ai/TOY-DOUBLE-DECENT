@@ -1,0 +1,6 @@
+torch==2.6.0
+ipykernel==6.29.5
+matplotlib==3.10.1
+SciencePlots==1.0.1
+notebook==7.3.3
+tqdm==4.67.1
