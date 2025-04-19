@@ -1,7 +1,9 @@
 import torch
 import numpy as np
+from matplotlib.figure import Figure
 
 from tqdm import tqdm
+from typing import Any
 from matplotlib import pyplot as plt
 from src.model import ToyNN
 
@@ -17,13 +19,13 @@ def _draw_in_ax(ax, array_2d: np.ndarray, color: str) -> None:
         ax.plot([array_2d[i, 0], 0], [array_2d[i, 1], 0], color=color, linewidth=0.1)
 
 
-def draw_mini_plots(checkpoints: list[int]) -> None:
+def draw_mini_plots(checkpoints: list[int]) -> tuple[Figure, Any]:
 
     T = checkpoints
 
     fig, axs = plt.subplots(2, len(T), figsize=(len(T), 4))
 
-    for i, t in tqdm(enumerate(T)):
+    for i, t in enumerate(T):
         checkpoint = torch.load(f'../checkpoints/checkpoint_{t}.pth', weights_only=False)
         model = ToyNN(input_dim=10_000, hidden_dim=2)
         model.load_state_dict(checkpoint['model'])
@@ -37,5 +39,10 @@ def draw_mini_plots(checkpoints: list[int]) -> None:
         _draw_in_ax(column[0], features, 'blue')
         _draw_in_ax(column[1], hiddens, 'red')
 
-    plt.subplots_adjust(wspace=0.1, hspace=0.1)
-    plt.show()
+    fig.tight_layout(pad=2.0, h_pad=1.0, w_pad=2.0)
+
+    return fig, axs
+
+if __name__ == '__main__':
+
+    draw_mini_plots([3, 4])
