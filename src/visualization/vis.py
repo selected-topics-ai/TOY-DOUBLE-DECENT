@@ -19,11 +19,11 @@ def _draw_in_ax(ax, array_2d: np.ndarray, color: str) -> None:
         ax.plot([array_2d[i, 0], 0], [array_2d[i, 1], 0], color=color, linewidth=0.1)
 
 
-def draw_mini_plots(checkpoints: list[int]) -> tuple[Figure, Any]:
+def draw_mini_plots(checkpoints: list[int]):
 
     T = checkpoints
 
-    fig, axs = plt.subplots(2, len(T), figsize=(len(T), 4))
+    fig, axs = plt.subplots(2, len(T), figsize=(len(T), 3))
 
     for i, t in enumerate(T):
         checkpoint = torch.load(f'../checkpoints/checkpoint_{t}.pth', weights_only=False)
@@ -39,9 +39,12 @@ def draw_mini_plots(checkpoints: list[int]) -> tuple[Figure, Any]:
         _draw_in_ax(column[0], features, 'blue')
         _draw_in_ax(column[1], hiddens, 'red')
 
+    fig.text(0.05, 0.55, 'Features (Columns of W)', va='center', rotation='horizontal')
+    fig.text(0.05, 0.20, 'Hidden vectors (Training set)', va='center', rotation='horizontal')
+
     fig.tight_layout(pad=2.0, h_pad=1.0, w_pad=2.0)
 
-    return fig, axs
+    fig.show()
 
 if __name__ == '__main__':
 
