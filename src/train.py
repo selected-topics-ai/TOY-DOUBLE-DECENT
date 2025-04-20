@@ -54,8 +54,6 @@ if __name__ == '__main__':
     n_updates = 50000
     warmup_steps = 2500
 
-
-
     for t in T:
         print(f"Training with dataset size {t}")
         dataset = generate_batch(n_batch=t,
